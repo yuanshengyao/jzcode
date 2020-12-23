@@ -1,3 +1,4 @@
 # Windows:
 /node_modules
 /.vscode
+/nohup.out
