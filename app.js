@@ -9,10 +9,9 @@ Object.keys(routers || {}).forEach(key => {
   routers[key](app);
 })
 
-app.use(express.static(path.join(__dirname, 'server/view')));
+app.use(express.static(path.join(__dirname, 'view')));
 app.use(function(req, res, next) {
   res.status(404).send('Server returned : 404 Not Found');
 });
-app.listen(config.port, function() {
-  console.log('server start, port: ' + config.port);
-});
+
+module.exports = app;

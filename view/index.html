@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>原生超级简单的播放器</title>
+  <script src="./ajax.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      color: #fff;
+    }
+    
+    .container {
+      height: 100%;
+      width: 100%;
+      background-color: #333;
+    }
+    
+    .btn {
+      float: left;
+      width: 30%;
+      height: 100%;
+      line-height: 450px;
+      text-align: center;
+      font-size: 50px;
+      cursor: pointer;
+    }
+    
+    .btn.next {
+      float: right;
+    }
+    
+    .middle {
+      float: left;
+      height: 100%;
+      width: 38%;
+      border-left: 1px solid #fff;
+      border-right: 1px solid #fff;
+    }
+    
+    .middle .mes {
+      width: 100%;
+      height: 20%;
+      line-height: 100px;
+      text-align: center;
+      font-size: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    
+    .middle .list {
+      width: 100%;
+      height: 60%;
+      border-top: 1px solid #fff;
+      border-bottom: 1px solid #fff;
+    }
+    
+    .middle .play {
+      width: 100%;
+      line-height: 100px;
+      text-align: center;
+      font-size: 50px;
+      cursor: pointer;
+    }
+    
+    .list .music-list {
+      margin: 20px;
+      height: 90%;
+      overflow: auto;
+    }
+    
+    .list .music-list li {
+      padding: 5px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+    }
+    
+    .list .music-list li:hover {
+      opacity: 0.6;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 3px;
+    }
+
+    .list-active {
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 3px;
+    }
+
+    @media screen and (max-width: 525px) {
+      .btn {
+        width: 100%;
+        height: 12%;
+        line-height: 100px;
+        text-align: center;
+        font-size: 30px;
+        cursor: pointer;
+      }
+      .btn.next {}
+      .list .music-list li:hover {}
+      .middle {
+        height: 75%;
+        width: 100%;
+        border-top: 1px solid #fff;
+        border-bottom: 1px solid #fff;
+        border-left: 0px solid #fff;
+        border-right: 0px solid #fff;
+      }
+    }
+
+    /* 滚动条样式 */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 100%;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      width: 5px;
+      height: 60px;
+      background-color: #ccc;
+      border-radius: 3px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      border-radius: 10px;
+      background-color: rgba(255, 255, 255, 0);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="btn prev">上一首</div>
+    <div class="middle">
+      <div class="mes">枫林沐雨</div>
+      <div class="list">
+        <ul class="music-list"></ul>
+      </div>
+      <div class="play">播放</div>
+    </div>
+    <div class="btn next">下一首</div>
+</div>
+<audio id="audioer"></audio>
+<script>
+  var Prev = document.getElementsByClassName('prev')[0];
+  var Play = document.getElementsByClassName('play')[0];
+  var Next = document.getElementsByClassName('next')[0];
+  var Mes = document.getElementsByClassName('mes')[0];
+  var musicList = document.getElementsByClassName('music-list')[0];
+  var musicListCss;
+  // 获取服务器页面歌曲文件
+  var musicData = new Array();
+  var sendStr = 'view/mp3';
+  ajax('/api/getAllDir', sendStr, function(data) {
+    var dirObj = JSON.parse(data);
+    for (var i = 0; i < dirObj.file.length; i++) {
+        musicData.push('./mp3/' + dirObj.file[i]);
+    }
+    console.log(musicData);
+    // 生成歌曲列表
+    var liStr = '';
+    for (var j = 0; j < musicData.length; j++) {
+        liStr += '<li onclick="listPlay(' + j + ',\'' + musicData[j] + '\')">' + (j + 1) + '. ' + /mp3\/(.*)\.m/.exec(musicData[j])[1] + '</li>'
+    }
+    musicList.innerHTML = liStr;
+    musicListCss = document.getElementsByClassName('music-list')[0];
+    Maudio.init();
+  }, {});
+  var Maudio = {
+    audioDom: document.getElementById('audioer'),
+    playIndex: 0,
+    sum: 0,
+    init: function() {
+      this.audioDom.volume = 1;
+      this.audioDom.src = musicData[this.playIndex];
+      this.sum = musicData.length;
+    },
+    play: function(src) {
+      if (src) this.audioDom.src = src;
+      this.audioDom.play();
+    },
+    pause: function() {
+      this.audioDom.pause();
+    }
+  }
+  Maudio.audioDom.addEventListener("ended", function() {
+    setTimeout(function() {
+      next();
+    }, 500);
+  });
+
+  function next() {
+    var index = Maudio.playIndex + 1;
+    index >= Maudio.sum ? Maudio.playIndex = 0 : Maudio.playIndex = index;
+    Maudio.play(musicData[Maudio.playIndex]);
+    change(Maudio.playIndex);
+  }
+
+  function prev() {
+    var index = Maudio.playIndex - 1;
+    index < 0 ? Maudio.playIndex = Maudio.sum - 1 : Maudio.playIndex = index;
+    Maudio.play(musicData[Maudio.playIndex]);
+    change(Maudio.playIndex);
+  }
+
+  function listPlay(index, src) {
+    Maudio.playIndex = index;
+    Maudio.play(src);
+    change(index);
+  }
+
+  function change(index) {
+    if (Maudio.audioDom.paused) {
+      Play.innerHTML = '暂停';
+    } else {
+      Play.innerHTML = '播放';
+    }
+    Mes.innerHTML = /mp3\/(.*)\.m/.exec(musicData[Maudio.playIndex])[1];
+    // 处理当前列表中播放特效
+    for(var i = 0; i < musicListCss.childNodes.length; i ++) {
+      musicListCss.childNodes[i].classList.remove('list-active');
+    }
+    musicListCss.childNodes[index].classList.add('list-active');
+  }
+  Prev.onclick = function() {
+    prev();
+  }
+  Play.onclick = function() {
+    if (Maudio.audioDom.paused) {
+      Maudio.play();
+    } else {
+      Maudio.pause();
+    }
+    change(Maudio.playIndex);
+  }
+  Next.onclick = function() {
+    next();
+  }
+</script>
+</body>
+</html>
