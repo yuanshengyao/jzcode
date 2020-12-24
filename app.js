@@ -10,6 +10,7 @@ Object.keys(routers || {}).forEach(key => {
 })
 
 app.use(express.static(path.join(__dirname, 'view')));
+app.use(express.static(path.join(__dirname, 'jzvue/dist')));
 app.use(function(req, res, next) {
   res.status(404).send('Server returned : 404 Not Found');
 });
