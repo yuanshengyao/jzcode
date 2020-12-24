@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "灵转网",
   "main": "app.js",
+  "bin": {
+    "jz-cli": "jz-cli"
+  },
   "scripts": {
     "start": "node server/bin/www",
     "dev": "node server/bin/www",
@@ -16,8 +19,12 @@
   "author": "ysy",
   "license": "ISC",
   "dependencies": {
+    "chalk": "^4.1.0",
+    "commander": "^6.2.1",
     "connect-history-api-fallback": "^1.6.0",
     "debug": "^4.3.1",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "log-symbols": "^4.0.0",
+    "ora": "^5.1.0"
   }
 }

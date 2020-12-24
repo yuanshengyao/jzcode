@@ -1,0 +1,52 @@
+#!/usr/bin/env node
+
+const fs = require('fs');
+const path = require('path');
+const program = require('commander');
+// const download = require('download-git-repo');
+// const handlebars = require('handlebars');
+// const inquirer = require('inquirer');
+const ora = require('ora');
+const chalk = require('chalk');
+const symbols = require('log-symbols');
+
+console.log('开始构建项目');
+const spinner = ora('正在运行中...');
+spinner.start();
+
+const staticPath = path.resolve(__dirname, 'static');
+const jzVuePath = path.resolve(__dirname, 'jzvue/dist');
+const targetPath = path.resolve(__dirname, 'view');
+
+setTimeout(() => {
+  if(Math.random() < 1) {
+    fs.readdir(staticPath, (err, files) => {
+      if(!err) {
+        console.log('files', files);
+        if(!fs.existsSync(targetPath)) {
+          console.log('没有view文件夹');
+          fs.mkdirSync('../view')
+        }else {
+          files.forEach((item, index) => {
+            let item_path = path.join(staticPath, item);
+            let temp = fs.statSync(item_path);
+            if(temp.isFile()) {
+              fs.copyFileSync(item_path, targetPath);
+            }else if(temp.isDirectory()) {
+              CopyDirectory(item_path, targetPath);
+            }
+          })
+        }
+      }
+    });
+    spinner.succeed('运行成功');
+    console.log(symbols.success ,chalk.green('项目构建成功'));
+  }else {
+    spinner.fail('运行失败');
+    console.log(symbols.error, chalk.red('项目构建失败'));
+  }
+}, 3000);
+
+function CopyDirectory(originPath, targetPath) {
+
+}
