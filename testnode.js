@@ -8,7 +8,7 @@ fs.readdir(staticPath, (err, files) => {
   console.log('files', files);
   if(!fs.existsSync(targetPath)) {
     console.log('没有view文件夹');
-    fs.mkdirSync('../view');
+    fs.mkdirSync('./view');
   }else {
     files.forEach((item, index) => {
       let item_path = path.join(staticPath, item);
