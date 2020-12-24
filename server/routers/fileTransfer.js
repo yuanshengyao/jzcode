@@ -15,11 +15,7 @@ router.post('/getAllDir', (request, response, next) => {
     let data = Buffer.from([]);
     if(postData.length != 0) {
       let dirName = postData.toString();
-      response.writeHead(200, {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Content-Encoding'
-      })
+      response.writeHead(200);
       try{
         // 读取目录信息
         data = fs.readdirSync(dirName);
@@ -41,12 +37,15 @@ router.post('/getAllDir', (request, response, next) => {
         response.end();
       }
     }else {
-      response.writeHead(200, {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT,DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Content-Encoding'
-      })
-      response.end('');
+      response.writeHead(200);
+      response.write('请输入参数');
+      response.end();
     }
   });
 });
+
+// {
+//   'Access-Control-Allow-Origin': '*',
+//   'Access-Control-Allow-Methods': 'GET, POST, PUT,DELETE, OPTIONS',
+//   'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Content-Encoding'
+// }
