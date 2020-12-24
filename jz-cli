@@ -14,26 +14,27 @@ console.log('开始构建项目');
 const spinner = ora('正在运行中...');
 spinner.start();
 
-const staticPath = path.resolve(__dirname, 'static');
+const commonPath = path.resolve(__dirname, 'common/dist');
 const jzVuePath = path.resolve(__dirname, 'jzvue/dist');
-const targetPath = path.resolve(__dirname, 'view');
+const commonTargetPath = path.resolve(__dirname, 'view/common');
 
 setTimeout(() => {
   if(Math.random() < 1) {
-    fs.readdir(staticPath, (err, files) => {
+    fs.readdir(commonPath, (err, files) => {
       if(!err) {
         console.log('files', files);
-        if(!fs.existsSync(targetPath)) {
-          console.log('没有view文件夹');
-          fs.mkdirSync('./view')
+        if(!fs.existsSync(commonTargetPath)) {
+          console.log('没有view文件夹,新建view文件夹');
+          fs.mkdirSync(commonTargetPath);
         }else {
           files.forEach((item, index) => {
-            let item_path = path.join(staticPath, item);
+            let item_path = path.join(commonPath, item);
+            let targe_path = path.join(commonTargetPath, item);
             let temp = fs.statSync(item_path);
             if(temp.isFile()) {
-              fs.copyFileSync(item_path, targetPath);
+              fs.copyFileSync(item_path, targe_path);
             }else if(temp.isDirectory()) {
-              CopyDirectory(item_path, targetPath);
+              CopyDirectory(item_path, commonTargetPath);
             }
           })
         }

@@ -158,7 +158,7 @@
   var musicListCss;
   // 获取服务器页面歌曲文件
   var musicData = new Array();
-  var sendStr = 'view/mp3';
+  var sendStr = 'view/common/mp3';
   ajax('/api/getAllDir', sendStr, function(data) {
     var dirObj = JSON.parse(data);
     for (var i = 0; i < dirObj.file.length; i++) {

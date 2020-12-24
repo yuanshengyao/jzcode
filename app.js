@@ -1,9 +1,12 @@
 const express = require('express');
 const path = require('path');
 const routers = require('./server/routers/index');
+const redirect = require('./server/middlewares/redirect');
 const config = require('./server/server.conf');
 
 const app = express();
+
+app.use(redirect);
 
 Object.keys(routers || {}).forEach(key => {
   routers[key](app);
