@@ -10,6 +10,8 @@ const chalk = require('chalk');
 const symbols = require('log-symbols');
 
 const { copyAllFile, deleteAllFile } = require('./common/utils/files');
+const nodeCmd = require('./common/utils/nodecmd');
+const isWin32 = process.platform === 'win32';
 
 console.log('开始构建项目');
 const spinner = ora('正在运行中...');
@@ -21,20 +23,39 @@ const commonTargetPath = path.resolve(__dirname, 'view/common');
 const jzVuePath = path.resolve(__dirname, 'jzvue/dist');
 const jzVueTargetPath = path.resolve(__dirname, 'view/jzvue');
 
-deleteAllFile(rootPath, {
-  exclude: {
-    files: ['.gitignore'],
-    dirs: ['view']
-  }
-});
+// -----------------------------------------------------------------------------------
+// 完成各项目打包
+// -----------------------------------------------------------------------------------
+// const jzvueBuildInfo = nodeCmd.execSync('cd ./jzvue & npm run build');
+// console.log('jzvueBuildInfo', jzvueBuildInfo.toString('utf-8'));
+nodeCmd.nodeCommand('ping', ['www.jzcode.xyz']);
 setTimeout(() => {
-  if(Math.random() < 1) {
-    copyAllFile(commonPath, commonTargetPath);
-    copyAllFile(jzVuePath, jzVueTargetPath);
-    spinner.succeed('运行成功');
-    console.log(symbols.success ,chalk.green('项目构建成功'));
-  }else {
-    spinner.fail('运行失败');
-    console.log(symbols.error, chalk.red('项目构建失败'));
-  }
+  console.log(symbols.success ,chalk.green('项目构建成功'));
+  spinner.succeed('运行成功');
 }, 3000);
+
+
+// -----------------------------------------------------------------------------------
+// 项目构建完成，打包后的代码copy到目标文件夹
+// -----------------------------------------------------------------------------------
+
+// deleteAllFile(rootPath, {
+//   exclude: {
+//     files: ['.gitignore'],
+//     dirs: ['view']
+//   }
+// });
+
+// copyAllFile(commonPath, commonTargetPath);
+// copyAllFile(jzVuePath, jzVueTargetPath);
+
+
+
+// spinner.fail('运行失败');
+// console.log(symbols.error, chalk.red('项目构建失败'));
+
+
+// -----------------------------------------------------------------------------------
+// 服务启动
+// -----------------------------------------------------------------------------------
+// nodeCmd.nodeCommand(isWin32 ? 'npm.cmd' : 'npm', ['start']);
