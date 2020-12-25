@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
 const path = require('path');
 const program = require('commander');
 // const download = require('download-git-repo');
@@ -10,36 +9,28 @@ const ora = require('ora');
 const chalk = require('chalk');
 const symbols = require('log-symbols');
 
+const { copyAllFile, deleteAllFile } = require('./common/utils/files');
+
 console.log('开始构建项目');
 const spinner = ora('正在运行中...');
 spinner.start();
 
+const rootPath = path.resolve(__dirname, 'view');
 const commonPath = path.resolve(__dirname, 'common/dist');
-const jzVuePath = path.resolve(__dirname, 'jzvue/dist');
 const commonTargetPath = path.resolve(__dirname, 'view/common');
+const jzVuePath = path.resolve(__dirname, 'jzvue/dist');
+const jzVueTargetPath = path.resolve(__dirname, 'view/jzvue');
 
+deleteAllFile(rootPath, {
+  exclude: {
+    files: ['.gitignore'],
+    dirs: ['view']
+  }
+});
 setTimeout(() => {
   if(Math.random() < 1) {
-    fs.readdir(commonPath, (err, files) => {
-      if(!err) {
-        console.log('files', files);
-        if(!fs.existsSync(commonTargetPath)) {
-          console.log('没有view文件夹,新建view文件夹');
-          fs.mkdirSync(commonTargetPath);
-        }else {
-          files.forEach((item, index) => {
-            let item_path = path.join(commonPath, item);
-            let targe_path = path.join(commonTargetPath, item);
-            let temp = fs.statSync(item_path);
-            if(temp.isFile()) {
-              fs.copyFileSync(item_path, targe_path);
-            }else if(temp.isDirectory()) {
-              CopyDirectory(item_path, commonTargetPath);
-            }
-          })
-        }
-      }
-    });
+    copyAllFile(commonPath, commonTargetPath);
+    copyAllFile(jzVuePath, jzVueTargetPath);
     spinner.succeed('运行成功');
     console.log(symbols.success ,chalk.green('项目构建成功'));
   }else {
@@ -47,7 +38,3 @@ setTimeout(() => {
     console.log(symbols.error, chalk.red('项目构建失败'));
   }
 }, 3000);
-
-function CopyDirectory(originPath, targetPath) {
-
-}

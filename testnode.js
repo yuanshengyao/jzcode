@@ -1,24 +1,28 @@
 const fs = require('fs');
 const path = require('path');
 
-const staticPath = path.resolve(__dirname, 'common/static');
+const staticPath = path.resolve(__dirname, 'common/dist/index.html');
 const targetPath = path.resolve(__dirname, 'view');
 
-fs.readdir(staticPath, (err, files) => {
-  console.log('files', files);
-  if(!fs.existsSync(targetPath)) {
-    console.log('没有view文件夹');
-    fs.mkdirSync(targetPath);
-  }else {
-    files.forEach((item, index) => {
-      let item_path = path.join(staticPath, item);
-      let targeFile = path.join(targetPath, item);
-      let temp = fs.statSync(item_path);
-      if(temp.isFile()) {
-        fs.copyFileSync(item_path, targeFile);
-      }else if(temp.isDirectory()) {
-        CopyDirectory(item_path, targetPath);
-      }
-    })
-  }
-});
+// fs.mkdirSync(targetPath);
+
+// try {
+//   fs.rmdirSync(targetPath);
+// }catch(e) {}
+
+// console.log(3233444);
+
+let arr = [1,2,3,4,5,6,7,8]
+
+function test() {
+  arr.forEach((item, index) => {
+    console.log(item);
+    if(item > 4) {
+      console.log('bbb')
+      return;
+    }
+  })
+  console.log('aaa');
+}
+
+test()
