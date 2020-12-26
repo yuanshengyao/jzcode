@@ -29,10 +29,11 @@ const jzVueTargetPath = path.resolve(__dirname, 'view/jzvue');
 // const jzvueBuildInfo = nodeCmd.execSync('cd ./jzvue & npm run build');
 // console.log('jzvueBuildInfo', jzvueBuildInfo.toString('utf-8'));
 nodeCmd.nodeCommand('ping', ['www.jzcode.xyz']);
-setTimeout(() => {
-  console.log(symbols.success ,chalk.green('项目构建成功'));
-  spinner.succeed('运行成功');
-}, 3000);
+
+// setTimeout(() => {
+//   console.log(symbols.success ,chalk.green('项目构建成功'));
+//   spinner.succeed('运行成功');
+// }, 3000);
 
 
 // -----------------------------------------------------------------------------------
@@ -59,3 +60,5 @@ setTimeout(() => {
 // 服务启动
 // -----------------------------------------------------------------------------------
 // nodeCmd.nodeCommand(isWin32 ? 'npm.cmd' : 'npm', ['start']);
+
+spinner.succeed('运行成功');

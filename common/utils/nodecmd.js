@@ -10,10 +10,10 @@ const commandline = {
   nodeCommand
 };
 
-function nodeCommand(command, arr) {
+function nodeCommand(command, arr = []) {
   const commandObj = spawn(command, arr);
   commandObj.stdout.on('data', data => {
-    console.log(command + ' ' + 'stdout', data.toString('utf-8'));
+    console.log(data);
   })
   commandObj.stderr.on('data', data => {
     console.log(command + ' ' + 'stderr', data.toString('utf-8'));

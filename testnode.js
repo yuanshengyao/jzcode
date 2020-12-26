@@ -4,25 +4,20 @@ const path = require('path');
 const staticPath = path.resolve(__dirname, 'common/dist/index.html');
 const targetPath = path.resolve(__dirname, 'view');
 
-// fs.mkdirSync(targetPath);
+// const buf3 = new Buffer.from('来自 42.19')
 
-// try {
-//   fs.rmdirSync(targetPath);
-// }catch(e) {}
+// const buf3 = new Buffer.from(['0xe6', '0x9d', '0xa5', '0xe8', '0x87', '0xaa', '0x34', '0x32', '0x2e', '0x31', '0x39'])
 
-// console.log(3233444);
+// const u8 = new Uint8Array(buf3)
 
-let arr = [1,2,3,4,5,6,7,8]
+// console.log(buf3)
+// console.log(u8)
+// console.log(buf3.toString())                                                                                                                      =  1  5     m  s     T  T  L  =     5  2
 
-function test() {
-  arr.forEach((item, index) => {
-    console.log(item);
-    if(item > 4) {
-      console.log('bbb')
-      return;
-    }
-  })
-  console.log('aaa');
-}
+const buf2 = new Buffer.from(['0xc0', '0xb4', '0xd7', '0xd4'])
 
-test()
+const u82 = new Uint8Array(buf2)
+
+console.log(buf2)
+console.log(u82)
+console.log(buf2.toString())
