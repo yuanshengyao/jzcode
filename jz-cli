@@ -8,6 +8,7 @@ const program = require('commander');
 const ora = require('ora');
 const chalk = require('chalk');
 const symbols = require('log-symbols');
+const iconv = require('iconv-lite');
 
 const { copyAllFile, deleteAllFile } = require('./common/utils/files');
 const nodeCmd = require('./common/utils/nodecmd');
@@ -23,42 +24,78 @@ const commonTargetPath = path.resolve(__dirname, 'view/common');
 const jzVuePath = path.resolve(__dirname, 'jzvue/dist');
 const jzVueTargetPath = path.resolve(__dirname, 'view/jzvue');
 
+// setTimeout(() => {
+//   spinner.stop();
+//   console.log(symbols.success ,chalk.green('项目构建成功'));
+// }, 3000);
+// console.log(symbols.error, chalk.red('项目构建失败'));
+
 // -----------------------------------------------------------------------------------
 // 完成各项目打包
 // -----------------------------------------------------------------------------------
-// const jzvueBuildInfo = nodeCmd.execSync('cd ./jzvue & npm run build');
-// console.log('jzvueBuildInfo', jzvueBuildInfo.toString('utf-8'));
-nodeCmd.nodeCommand('ping', ['www.jzcode.xyz']);
+const jzvueBuild = () => {
+  return nodeCmd.execPromise('cd ./jzvue & npm run build');
+}
+const testBuild = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('test项目打包成功');
+    }, 3000);
+  });
+}
 
-// setTimeout(() => {
-//   console.log(symbols.success ,chalk.green('项目构建成功'));
-//   spinner.succeed('运行成功');
-// }, 3000);
+let taskList = [];
 
+testBuild().then((testBuildInfo) => {
+  spinner.stop();
+  console.log('testBuildInfo:');
+  console.log(testBuildInfo);
+  spinner.start();
+  return testBuild();
+}).then((testBuildInfo) => {
+  spinner.stop();
+  console.log('testBuildInfo:');
+  console.log(testBuildInfo);
+  spinner.start();
+  return testBuild();
+}).then((testBuildInfo) => {
+  spinner.stop();
+  console.log('testBuildInfo:');
+  console.log(testBuildInfo);
+})
+
+
+// jzvueBuild().then((jzvueBuildInfo) => {
+//   console.log('jzvueBuildInfo:');
+//   console.log(iconv.decode(jzvueBuildInfo, 'GB2312'));
+//   testBuild().then((testBuildInfo) => {
+//     console.log('testBuildInfo:');
+//     console.log(testBuildInfo);
+
+//     spinner.stop();
+//   }, (err) => {
+//     console.log('test', err);
+//   })
+// }, (err) => {
+//   console.log('jzvue', err);
+// })
 
 // -----------------------------------------------------------------------------------
 // 项目构建完成，打包后的代码copy到目标文件夹
 // -----------------------------------------------------------------------------------
-
 // deleteAllFile(rootPath, {
 //   exclude: {
 //     files: ['.gitignore'],
 //     dirs: ['view']
 //   }
 // });
+// console.log('remove view’s files');
 
 // copyAllFile(commonPath, commonTargetPath);
 // copyAllFile(jzVuePath, jzVueTargetPath);
-
-
-
-// spinner.fail('运行失败');
-// console.log(symbols.error, chalk.red('项目构建失败'));
-
+// console.log('copy files to view');
 
 // -----------------------------------------------------------------------------------
 // 服务启动
 // -----------------------------------------------------------------------------------
-// nodeCmd.nodeCommand(isWin32 ? 'npm.cmd' : 'npm', ['start']);
-
-spinner.succeed('运行成功');
+// nodeCmd.spawnCommand(isWin32 ? 'npm.cmd' : 'npm', ['start']);
