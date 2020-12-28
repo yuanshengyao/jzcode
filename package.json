@@ -27,6 +27,7 @@
     "express": "^4.17.1",
     "iconv-lite": "^0.6.2",
     "log-symbols": "^4.0.0",
-    "ora": "^5.1.0"
+    "ora": "^5.1.0",
+    "single-line-log": "^1.1.2"
   }
 }
