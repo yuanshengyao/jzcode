@@ -1,5 +1,6 @@
 const { exec, execSync, spawn, spawnSync, execFile, execFileSync } = require('child_process');
 const iconv = require('iconv-lite');
+const isWin32 = process.platform === 'win32';
 
 const commandline = {
   exec,
@@ -10,7 +11,7 @@ const commandline = {
   execFileSync,
   execPromise,
   spawnPromise,
-  spawnCommand
+  bashCommand
 };
 
 function execPromise(command) {
@@ -45,21 +46,22 @@ function spawnPromise(command, arr = []) {
   });
 }
 
-function spawnCommand() {
+function bashCommand() {
+  if(isWin32) {
+    console.log('该命令不能在windows上执行');
+    return;
+  }
   const subProcess = spawn('bash');
-  subProcess.stdout.on('data', data => {
-    process.stdout.write(data);
-    // const result = iconv.decode(data, 'GB2312');
-    // console.log(result);
-  })
-  subProcess.stderr.on('data', data => {
-    console.log(command + ' ' + 'stderr\n', iconv.decode(data, 'GB2312'));
-  })
+  function onData(data) {
+    process.stdout.write(iconv.decode(data, 'GB2312'));
+  }
+  subProcess.stdout.on('data', onData);
+  subProcess.stderr.on('data', onData);
   subProcess.on('close', code => {
-    console.log(command + ' ' + 'exit\n', code);
+    console.log('子进程退出码: ', code);
   })
   subProcess.on('error', code => {
-    console.log(command + ' ' + 'error\n', code);
+    console.log('错误码error', code);
   })
   return subProcess;
 }
