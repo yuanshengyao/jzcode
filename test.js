@@ -9,7 +9,7 @@ const targetPath = path.resolve(__dirname, 'view');
 
 
 const jzvueBuild = () => {
-  return nodeCmd.execPromise('cd ./jzvue & node app.js');
+  return nodeCmd.execPromise('cd ./jzvue & npm run build');
 }
 
 jzvueBuild().then((data) => {
