@@ -12,6 +12,6 @@ const jzvueBuild = () => {
   return nodeCmd.execPromise('cd ./jzvue & node app.js');
 }
 
-jzvueBuild.then((data) => {
+jzvueBuild().then((data) => {
   console.log(data)
 })
