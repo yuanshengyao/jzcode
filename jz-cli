@@ -116,7 +116,7 @@ jzTask.add(copyAllFileTask);
 // 服务启动
 // -----------------------------------------------------------------------------------
 // const serverStart = () => {
-//   return nodeCmd.spawnCommand(isWin32 ? 'npm.cmd' : 'npm', ['start']);
+//   return nodeCmd.spawnPromise(isWin32 ? 'npm.cmd' : 'npm', ['start']);
 // }
 // jzTask.add(serverStart);
 

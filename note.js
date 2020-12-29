@@ -51,3 +51,9 @@
   spawnCommand('npm.cmd', ['start'])
 */
 
+/**
+ * nodeCmd.execPromise('cd ./jzvue & npm run build');
+ * 这种组合命令在linux上不生效
+ * 在linux上效果：没有cd到目标目录，npm run build在当前目录执行
+*/
+
