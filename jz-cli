@@ -77,7 +77,7 @@ const testBuild = () => {
   });
 }
 jzTask.add(testBuild);
-// jzTask.add(jzvueBuild);
+jzTask.add(jzvueBuild);
 jzTask.add(testBuild);
 
 // -----------------------------------------------------------------------------------
@@ -109,16 +109,16 @@ const copyAllFileTask = () => {
     }
   })
 }
-// jzTask.add(deleteAllFileTask);
-// jzTask.add(copyAllFileTask);
+jzTask.add(deleteAllFileTask);
+jzTask.add(copyAllFileTask);
 
 // -----------------------------------------------------------------------------------
 // 服务启动
 // -----------------------------------------------------------------------------------
-const serverStart = () => {
-  return nodeCmd.spawnCommand(isWin32 ? 'npm.cmd' : 'npm', ['start']);
-}
-jzTask.add(serverStart);
+// const serverStart = () => {
+//   return nodeCmd.spawnCommand(isWin32 ? 'npm.cmd' : 'npm', ['start']);
+// }
+// jzTask.add(serverStart);
 
 // -----------------------------------------------------------------------------------
 // 任务执行
