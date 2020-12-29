@@ -112,7 +112,7 @@ if(isWin32) {
   jzTask.add(copyAllFileTask);
 
   // -----------------------------------------------------------------------------------
-  // 服务启动
+  // 服务启动,基本当成开发环境
   // -----------------------------------------------------------------------------------
   // const serverStart = () => {
   //   return nodeCmd.spawnPromise(isWin32 ? 'npm.cmd' : 'npm', ['start']);
@@ -144,18 +144,18 @@ if(isWin32) {
     }
   });
   console.log('remove view’s files');
-  subProcess.stdin.write(`mv ${commonPath} ${commonTargetPath} \n`);
-  subProcess.stdin.write(`mv ${jzVuePath} ${jzVueTargetPath} \n`);
+  subProcess.stdin.write(`cp -r ${commonPath} ${commonTargetPath} \n`);
+  subProcess.stdin.write(`cp -r ${jzVuePath} ${jzVueTargetPath} \n`);
 
   // -----------------------------------------------------------------------------------
-  // 服务启动
+  // 服务启动,不在脚本上启动了
   // -----------------------------------------------------------------------------------
-  subProcess.stdin.write('cd ../ \n');
-  subProcess.stdin.write('pwd \n');
-  subProcess.stdin.write('nohup npm start & \n');
+  // subProcess.stdin.write('cd ../ \n');
+  // subProcess.stdin.write('pwd \n');
+  // subProcess.stdin.write('nohup npm start & \n');
   subProcess.on('close', code => {
     console.log('子进程退出码: ', code);
-    spinner.stop();
+    spinner.stop();   //这里有问题，stop不了
   })
-  subProcess.stdin.end();
+  subProcess.stdin.end(); //这里好像没执行
 }
