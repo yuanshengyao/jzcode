@@ -48,8 +48,9 @@ function spawnPromise(command, arr = []) {
 function spawnCommand() {
   const subProcess = spawn('bash');
   subProcess.stdout.on('data', data => {
-    const result = iconv.decode(data, 'GB2312');
-    console.log(result);
+    process.stdout.write(data);
+    // const result = iconv.decode(data, 'GB2312');
+    // console.log(result);
   })
   subProcess.stderr.on('data', data => {
     console.log(command + ' ' + 'stderr\n', iconv.decode(data, 'GB2312'));
