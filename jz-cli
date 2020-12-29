@@ -54,73 +54,94 @@ function TaskQueue() {
       }
     })
   },
-  this.stop = () => {
-
-  }
+  this.stop = () => {}
 }
 
-const jzTask = new TaskQueue();
 const spinner = ora('正在运行中...');
 spinner.start();
 
-// -----------------------------------------------------------------------------------
-// 完成各项目打包
-// -----------------------------------------------------------------------------------
-const jzvueBuild = () => {
-  return nodeCmd.execPromise('cd ./jzvue & npm run build');
-}
-const testBuild = () => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve('test项目打包成功');
-    }, 3000);
-  });
-}
-jzTask.add(testBuild);
-jzTask.add(jzvueBuild);
-jzTask.add(testBuild);
+if(isWin32) {
+  const jzTask = new TaskQueue();
+  // -----------------------------------------------------------------------------------
+  // 完成各项目打包
+  // -----------------------------------------------------------------------------------
+  const jzvueBuild = () => {
+    return nodeCmd.execPromise('cd ./jzvue & npm run build');
+  }
+  const testBuild = () => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve('test项目打包成功');
+      }, 3000);
+    });
+  }
+  jzTask.add(testBuild);
+  jzTask.add(jzvueBuild);
+  jzTask.add(testBuild);
 
-// -----------------------------------------------------------------------------------
-// 项目构建完成，打包后的代码copy到目标文件夹
-// -----------------------------------------------------------------------------------
-const deleteAllFileTask = () => {
-  return new Promise((resolve, reject) => {
-    try {
-      deleteAllFile(rootPath, {
-        exclude: {
-          files: ['.gitignore'],
-          dirs: ['view']
-        }
-      });
-      resolve('remove view’s files');
-    }catch(e) {
-      console.log(e);
-    }
-  })
-}
-const copyAllFileTask = () => {
-  return new Promise((resolve, reject) => {
-    try {
-      copyAllFile(commonPath, commonTargetPath);
-      copyAllFile(jzVuePath, jzVueTargetPath);
-      resolve('copy files to view');
-    }catch(e) {
-      console.log(e);
-    }
-  })
-}
-jzTask.add(deleteAllFileTask);
-jzTask.add(copyAllFileTask);
+  // -----------------------------------------------------------------------------------
+  // 项目构建完成，打包后的代码copy到目标文件夹
+  // -----------------------------------------------------------------------------------
+  const deleteAllFileTask = () => {
+    return new Promise((resolve, reject) => {
+      try {
+        deleteAllFile(rootPath, {
+          exclude: {
+            files: ['.gitignore'],
+            dirs: ['view']
+          }
+        });
+        resolve('remove view’s files');
+      }catch(e) {
+        console.log(e);
+      }
+    })
+  }
+  const copyAllFileTask = () => {
+    return new Promise((resolve, reject) => {
+      try {
+        copyAllFile(commonPath, commonTargetPath);
+        copyAllFile(jzVuePath, jzVueTargetPath);
+        resolve('copy files to view');
+      }catch(e) {
+        console.log(e);
+      }
+    })
+  }
+  jzTask.add(deleteAllFileTask);
+  jzTask.add(copyAllFileTask);
 
-// -----------------------------------------------------------------------------------
-// 服务启动
-// -----------------------------------------------------------------------------------
-// const serverStart = () => {
-//   return nodeCmd.spawnPromise(isWin32 ? 'npm.cmd' : 'npm', ['start']);
-// }
-// jzTask.add(serverStart);
+  // -----------------------------------------------------------------------------------
+  // 服务启动
+  // -----------------------------------------------------------------------------------
+  // const serverStart = () => {
+  //   return nodeCmd.spawnPromise(isWin32 ? 'npm.cmd' : 'npm', ['start']);
+  // }
+  // jzTask.add(serverStart);
 
-// -----------------------------------------------------------------------------------
-// 任务执行
-// -----------------------------------------------------------------------------------
-jzTask.fire();
+  // -----------------------------------------------------------------------------------
+  // 任务执行
+  // -----------------------------------------------------------------------------------
+  jzTask.fire();
+}else {
+  const subProcess = nodeCmd.bashCommand();
+  // -----------------------------------------------------------------------------------
+  // 完成各项目打包
+  // -----------------------------------------------------------------------------------
+  subProcess.stdin.write('cd ./jzvue \n');
+  subProcess.stdin.write('npm run build \n');
+
+  // -----------------------------------------------------------------------------------
+  // 项目构建完成，打包后的代码copy到目标文件夹
+  // -----------------------------------------------------------------------------------
+  subProcess.stdin.write('cd ../view \n');
+  subProcess.stdin.write('pwd \n');
+
+  // -----------------------------------------------------------------------------------
+  // 服务启动
+  // -----------------------------------------------------------------------------------
+  subProcess.stdin.write('cd ../ \n');
+  subProcess.stdin.write('pwd \n');
+  subProcess.stdin.end();
+  spinner.stop();
+}
