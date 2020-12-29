@@ -136,7 +136,7 @@ if(isWin32) {
   // -----------------------------------------------------------------------------------
   subProcess.stdin.write('cd ../view \n');
   subProcess.stdin.write('pwd \n');
-  subProcess.stdin.write('rm -v !(".gitignore") \n');
+  subProcess.stdin.write('rm -rf !(".gitignore") \n');
   subProcess.stdin.write(`mv ${commonPath} ${commonTargetPath} \n`);
   subProcess.stdin.write(`mv ${jzVuePath} ${jzVueTargetPath} \n`);
 
