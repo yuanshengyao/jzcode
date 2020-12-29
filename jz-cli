@@ -136,12 +136,16 @@ if(isWin32) {
   // -----------------------------------------------------------------------------------
   subProcess.stdin.write('cd ../view \n');
   subProcess.stdin.write('pwd \n');
+  subProcess.stdin.write('rm -v !(".gitignore") \n');
+  subProcess.stdin.write(`mv ${commonPath} ${commonTargetPath} \n`);
+  subProcess.stdin.write(`mv ${jzVuePath} ${jzVueTargetPath} \n`);
 
   // -----------------------------------------------------------------------------------
   // 服务启动
   // -----------------------------------------------------------------------------------
   subProcess.stdin.write('cd ../ \n');
   subProcess.stdin.write('pwd \n');
+  subProcess.stdin.write('nohup npm start & \n');
   subProcess.stdin.end();
   spinner.stop();
 }
