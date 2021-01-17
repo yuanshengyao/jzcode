@@ -21,6 +21,5 @@ export default {
   height: 100px;
   min-width: 1080px;
   margin: 0 auto;
-  background: #191a20;
 }
 </style>

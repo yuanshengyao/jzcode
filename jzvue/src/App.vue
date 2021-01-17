@@ -22,6 +22,7 @@ export default {
   list-style: none;
 }
 #app {
+  /* background: #191a20; */
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

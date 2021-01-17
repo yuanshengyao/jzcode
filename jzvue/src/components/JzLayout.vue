@@ -1,11 +1,13 @@
 <template>
   <div class="layout-container">
-    <jz-header></jz-header>
-    <keep-alive>
-      <router-view v-if="$route.meta.keepAlive" v-wechat-title="$route.meta.title"/>
-    </keep-alive>
-    <router-view v-if="!$route.meta.keepAlive" v-wechat-title="$route.meta.title"/>
-    <jz-footer></jz-footer>
+    <div id="skin">
+      <jz-header></jz-header>
+      <keep-alive>
+        <router-view v-if="$route.meta.keepAlive" v-wechat-title="$route.meta.title"/>
+      </keep-alive>
+      <router-view v-if="!$route.meta.keepAlive" v-wechat-title="$route.meta.title"/>
+      <jz-footer></jz-footer>
+    </div>
   </div>
 </template>
 
