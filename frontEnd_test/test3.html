@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      position: fixed;
+      top: 100px;
+      left: 100px;
+      width: 200px;
+      height: 200px;
+      background: orange;
+      z-index: -100;
+    }
+    .wrapper {
+      /* position: fixed; */
+      /* top: 0;
+      left: 0; */
+      width: 100vw;
+      height: 100vh;
+      background: #000;
+      opacity: 0.5;
+      /* z-index: 99 */
+    }
+  </style>
+</head>
+<body>
+  <div class='container'></div>
+  <div class='wrapper'></div>
+  <script>
+    var con = document.getElementsByClassName('container')[0];
+    var wra = document.getElementsByClassName('wrapper')[0];
+    con.onclick = function() {
+      console.log('con')
+    }
+    wra.onclick = function() {
+      console.log('wra')
+    }
+  </script>
+</body>
+</html>

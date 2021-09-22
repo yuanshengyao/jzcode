@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+    var one = 0
+    setTimeout(() => {
+      one = 1
+    }, 2000)
+  </script>
+</head>
+<body>
+  <script>
+    // function loadScript(url,callback){
+    // 　　var script=document.createElement('script');
+    // 　　　　script.type='text/javascript';
+    // 　　　　script.async='async';
+    // 　　　　script.src=url;
+    // 　　　　document.body.appendChild(script);
+    // 　　　　if(script.readyState){   //IE
+    // 　　　　　　script.onreadystatechange=function(){
+    // 　　　　　　　　if(script.readyState=='complete'||script.readyState=='loaded'){
+    // 　　　　　　　　　　script.onreadystatechange=null;
+    // 　　　　　　　　　　callback();
+    // 　　　　　　　　}
+    // 　　　　　　}
+    // 　　　　}else{    //非IE
+    // 　　　　　　script.onload=function(){callback();}
+    // 　　　　}
+    // }
+    // loadScript('./test.js', () => {
+    //   console.log(two.body)
+    // })
+  </script>
+  <script>
+    // let timer = setInterval(() => {
+    //   console.log(one)
+    //   if(one) {
+    //     clearInterval(timer)
+    //   }
+    // }, 100);
+    // console.log(one)
+    // function Pro() {
+    //   return new Promise((resolve, reject) => {
+    //     if(one) {
+    //       resolve(one)
+    //     }else {
+    //       resolve(Pro())
+    //     }
+    //   })
+    // }
+    function fun() {
+      console.log(fun)
+    }
+    fun()
+    // let pro = Pro()
+    // pro.then(res => {
+    //   console.log(res)
+    // })
+    // console.log(pro)
+  </script>
+</body>
+</html>
