@@ -57,3 +57,6 @@
  * 在linux上效果：没有cd到目标目录，npm run build在当前目录执行
 */
 
+// npm registry
+// https://registry.npmjs.org/
+// npm config set registry https://registry.npm.taobao.org
