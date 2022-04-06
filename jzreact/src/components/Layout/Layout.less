@@ -1,0 +1,30 @@
+.container {
+  .header {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 50px;
+    width: 100%;
+    background: #555;
+    color: #fff;
+  }
+  .content {
+    position: absolute;
+    display: flex;
+    top: 0;
+    bottom: 0;
+    margin-top: 50px;
+    width: 100%;
+    .left {
+      width: 300px;
+      height: 100%;
+      background: #345;
+      color: #fff;
+      overflow: auto;
+    }
+    .main {
+      flex: 1;
+      overflow: auto;
+    }
+  }
+}
