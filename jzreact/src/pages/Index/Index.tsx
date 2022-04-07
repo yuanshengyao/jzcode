@@ -11,8 +11,20 @@ function Index() {
       header={<Header />}
       left={<Menu />}
     >
-      <div className="Index-container">Main</div>
+      <Main />
     </Layout>
+  )
+}
+
+function Main() {
+  const List = []
+  for(let i = 0; i < 100; i ++) {
+    List.push(<li key={'li' + i}>{i}</li>)
+  }
+  return (
+    <div className="Index-container">
+      {List}
+    </div>
   )
 }
 
