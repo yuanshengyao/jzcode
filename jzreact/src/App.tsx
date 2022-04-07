@@ -2,9 +2,9 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.less'
 
-import Index from './pages/Index/Index'
-import Welcome from './pages/Welcome/Welcome'
-import NotFound from './pages/NotFound/NotFound'
+import Index from './pages/index/index'
+import Welcome from './pages/welcome/welcome'
+import NotFound from './pages/notFound/notFound'
 
 function App() {
   return (
