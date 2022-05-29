@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      .progress{
+        width: 300px;
+        height: 30px;
+        border: 1px solid;
+      }
+      .bar {
+        width: 0;
+        height: 30px;
+        background-color: rgb(67, 162, 245);
+      }
+    </style>
+  </head>
+  <body>
+      <input type="file" id="file" accept=".app">
+      <img src="" alt=""> 
+      <div class="progress">
+        <div class="bar"></div>
+      </div>
+      <span class="text"></span>
+      <div></div>
+      <button id="btn">终止</button>
+
+      <!-- <video  controls></video> -->
+      <script>
+
+        //  console.log(1111)
+         var reader = new FileReader();
+         var input = document.getElementById("file");
+         var img = document.getElementsByTagName("img")[0];
+         var text = document.getElementsByClassName('text')[0];
+         var bar = document.getElementsByClassName('bar')[0];
+        //  var video = document.getElementsByTagName("video")[0]
+        var btn = document.getElementById("btn")
+         input.onchange = function (e) {
+            console.log(input.files[0],111)
+            reader.readAsDataURL(input.files[0]);
+            // reader.readAsBinaryString(input.files[0])
+            // reader.readAsArrayBuffer(input.files[0])
+         }
+
+         reader.onloadstart = function (e) {
+            // this指向FileReader对象
+            // console.log(this === reader) //true
+            // console.log(this === e.target,this) // true  FileReader {readyState: 1, result: null, error: null, onloadstart: ƒ, onprogress: ƒ, …}
+            console.log("start",e)
+         }
+
+         reader.onprogress = function (e) {
+            console.log("progress",e)  
+            var percent = e.loaded / e.total * 100;
+            var width = Math.round(300* percent / 100) + 'px';
+            bar.style.width = width;
+            text.innerHTML = percent + '%'
+         }
+
+         reader.onload = function (e) {
+          //  img.src = this.result;
+          // video.src = this.results
+           console.log("onload",e)  
+         }
+
+         reader.onloadend = function (e) {
+          console.log("onloadend",e)  
+         }
+
+         reader.onerror = function (e) {
+           console.log("error",e);
+         }
+
+         btn.onclick = function (params) {
+            // reader.abort();
+            console.log(12345)
+         }
+
+      </script>
+  </body>
+  </html>
